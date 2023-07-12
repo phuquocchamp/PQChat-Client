@@ -1,4 +1,4 @@
-# PQChat - Client-to-Client Messaging Application
+# PQChat - Messaging Application
 
 PQChat is a client-to-client messaging application developed using JavaFX, CSS, Socket programming, and File I/O. It allows users to send text messages, images, and files between individual clients as well as within group chats.
 
