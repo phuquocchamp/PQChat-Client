@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.gleidson28.GNAvatarView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="60.0" styleClass="container" stylesheets="@../../../Css/Client/OnlineAccount.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1">
+   <GNAvatarView fx:id="clientAvatar__img" maxWidth="50.0" prefHeight="50.0" type="CIRCLE">
+      <Image url="@../../../Images/Clients/phuquocchamp.jpg" />
+   </GNAvatarView>
+   <Label fx:id="clientName__lbl" prefHeight="14.0" prefWidth="68.0" styleClass="name" text="Quoc" />
+</VBox>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.gleidson28.GNAvatarView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane prefHeight="900.0" prefWidth="353.0" styleClass="container" stylesheets="@../../../Css/Client/Contacts.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pqchatclient.Controller.Client.GroupContact.GroupContactController">
+   <AnchorPane layoutY="-4.0" prefHeight="65.0" prefWidth="351.0" styleClass="user__profile" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox layoutX="83.0" layoutY="11.0" prefHeight="52.0" prefWidth="223.0" styleClass="account" AnchorPane.bottomAnchor="0.9842336716203093" AnchorPane.topAnchor="5.0">
+         <Label fx:id="groupName_lbl" prefHeight="26.0" prefWidth="222.0" styleClass="account__user" text="Bé Tập Học Web" textFill="WHITE" />
+         <Label styleClass="account__type" text="My Account" />
+      </VBox>
+      <FontIcon fx:id="collapse_btn" iconColor="WHITE" iconLiteral="fltfmz-more-vertical-20" iconSize="25" layoutX="314.0" layoutY="50.0" styleClass="collapse__menu" AnchorPane.topAnchor="13.0" />
+      <GNAvatarView fx:id="groupAvatar__img" layoutX="11.0" layoutY="13.0" prefHeight="50.0" prefWidth="50.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0">
+         <Image url="@../../../Images/Clients/phuquocchamp.jpg" />
+      </GNAvatarView>
+   </AnchorPane>
+   <Label layoutX="17.0" layoutY="322.0" styleClass="chat__heading" text="Messages" />
+   <Label layoutX="17.0" layoutY="121.0" styleClass="user__heading" text="Online Groups:" />
+   <ListView fx:id="groupChat__listView" layoutX="17.0" layoutY="381.0" prefHeight="493.0" prefWidth="316.0" styleClass="user__chat" />
+   <ListView fx:id="groupOnline__listView" layoutX="17.0" layoutY="169.0" orientation="HORIZONTAL" prefHeight="104.0" prefWidth="316.0" styleClass="user__online" />
+</AnchorPane>
