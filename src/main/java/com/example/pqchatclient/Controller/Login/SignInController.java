@@ -1,7 +1,9 @@
 package com.example.pqchatclient.Controller.Login;
 
 import com.example.pqchatclient.Model.Model;
+import com.example.pqchatclient.Utilities.Encrypt;
 import com.example.pqchatclient.View.LoginViewOptions;
+import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -35,6 +37,8 @@ public class SignInController implements Initializable {
         login__btn.setOnAction(event -> onLogin());
         forgotPassword__btn.setOnAction(event -> onForgotPassword());
         hidePassword__btn.setOnAction(event -> onShowPassword());
+        // unset text for errol label
+        error__lbl.setText("");
     }
 
 
@@ -43,48 +47,56 @@ public class SignInController implements Initializable {
         // Security to validate account.
         String email = "";
         String password = "";
-        try{
+        try {
             email = email__textField.getText();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             error__lbl.setText("Please Input Email");
         }
-        try{
+        try {
             password = password__passwordField.getText();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             error__lbl.setText("Please Input Password");
         }
-        if(Model.getInstance().getDatabaseDriver().evaluatedAccount(email, password)){
-            // Set Current Account
+        // ---------------------- Verify account from server -------------------------//
+        String finalEmail = email;
+        String finalPassword = password;
+        Thread signInThread = new Thread(() -> {
+            String emailEncrypt = Encrypt.encodePassword(finalEmail);
+            String passwordEncrypt = Encrypt.encodePassword(finalPassword);
+            String messageForm = "evaluateAccount_" + emailEncrypt + "_" + passwordEncrypt;
+            System.out.println(messageForm);
+            Model.getInstance().getSocketManager().sendMessage(messageForm);
+            try {
+                String messageResponse = Model.getInstance().getSocketManager().receiverMessage();
+                System.out.println(messageResponse);
+                String[] messageSplit = messageResponse.split("_");
+                Platform.runLater(() -> {
+                    if (messageSplit[2].equals("success")) {
+                        String accountID = messageSplit[1];
+                        // Set currentAccount object
+                        Model.getInstance().setCurrentClient(accountID);
+                        // set targetAccount object
+                        Model.getInstance().setTargetClient(accountID);
+                        // Show main chat window
+                        Model.getInstance().getViewFactory().showClientWindow();
+                        // Close login stage
+                        Model.getInstance().getViewFactory().closeStage(stage);
 
-            ResultSet currentAccountRS = Model.getInstance().getDatabaseDriver().getCurrentAccount(email, password);
-            try{
-                if (currentAccountRS.isBeforeFirst()){
-                    String accountID = currentAccountRS.getString("accountID");
-                    // Set currentAccount object
-                    Model.getInstance().setCurrentClient(accountID);
-                    // set targetAccount object
-                    Model.getInstance().setTargetClient(accountID);
-                    // Set lastMessage
-                    Model.getInstance().setLastSingleMessage();
-                }
-            }catch (SQLException e){
+                    } else {
+                        email__textField.setText("");
+                        password__textField.setText("");
+                        error__lbl.setText("No Such Login Credential!");
+                    }
+                });
+
+            } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("Error at getCurrentAccount function in SignInController Class!");
+                System.out.println("Error at Evaluating account");
             }
-            Model.getInstance().getSocketManager().sendMessage("clientLogin_" + Model.getInstance().getCurrentClient().clientIDProperty().get());
-            Model.getInstance().getViewFactory().showClientWindow();
-            // Close login stage
-            Model.getInstance().getViewFactory().closeStage(stage);
-
-        }else{
-            email__textField.setText("");
-            password__textField.setText("");
-            error__lbl.setText("No Such Login Credential!");
-        }
-
-
+        });
+        signInThread.start();
 
     }
 
@@ -94,16 +106,16 @@ public class SignInController implements Initializable {
 
     private void onShowPassword() {
         clickCount++;
-        if(clickCount%2 == 1){
+        if (clickCount % 2 == 1) {
             password__textField.textProperty().bindBidirectional(password__passwordField.textProperty());
             password__passwordField.setVisible(false);
-        }else{
+        } else {
             password__passwordField.setVisible(true);
         }
 
     }
 
-    private void onForgotPassword(){
+    private void onForgotPassword() {
         Stage stage = (Stage) error__lbl.getScene().getWindow();
         Model.getInstance().getViewFactory().showForgotPasswordWindow();
         Model.getInstance().getViewFactory().closeStage(stage);
