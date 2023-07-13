@@ -24,7 +24,7 @@ public class Encrypt {
     }
 
     public static void main(String[] args) {
-        System.out.println(encodePassword("andyz"));
+        System.out.println(encodePassword("hoangtanphuquoc@gmail.com"));
     }
 
 }

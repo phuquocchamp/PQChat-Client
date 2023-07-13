@@ -132,6 +132,9 @@ public class Email {
             mimeMessage.setFrom(sendFrom);
             // Receiver
             mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(sendTo, false));
+
+
+//            mimeMessage.set
             // Email title
             mimeMessage.setSubject(title);
             // Send date
@@ -154,7 +157,7 @@ public class Email {
     }
 
     public static void main(String[] args) {
-        sendEmail("hoangtanphuquoc@gmail.com", "Reset Password Request 2", "12344");
+        sendEmail("klinhtruong04@gmail.com", "Reset Password Request 2", "12344");
     }
 
 }
