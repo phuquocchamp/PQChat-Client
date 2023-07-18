@@ -38,7 +38,6 @@ public class SignUpController implements Initializable {
     private void onCreateAccount() {
         if(!pqTerms__checkBox.isSelected()){
             error__lbl.setText("Click the phuquocchamp's Terms & Condition first !");
-
         }
     }
 

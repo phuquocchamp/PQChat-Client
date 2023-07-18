@@ -70,10 +70,10 @@ public class SignInController implements Initializable {
             Model.getInstance().getSocketManager().sendMessage(messageForm);
             try {
                 String messageResponse = Model.getInstance().getSocketManager().receiverMessage();
-                System.out.println(messageResponse);
                 String[] messageSplit = messageResponse.split("_");
                 Platform.runLater(() -> {
                     if (messageSplit[2].equals("success")) {
+                        System.out.println(messageResponse);
                         String accountID = messageSplit[1];
                         // Set currentAccount object
                         Model.getInstance().setCurrentClient(accountID);
