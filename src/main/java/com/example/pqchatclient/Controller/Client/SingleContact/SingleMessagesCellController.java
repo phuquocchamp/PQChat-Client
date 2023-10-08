@@ -31,7 +31,7 @@ public class SingleMessagesCellController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try{
             clientName__lbl.textProperty().bind(Bindings.concat(targetClient.lastNameProperty().concat(" ").concat(targetClient.firstNameProperty())));
-            clientAvatar__img.setImage(new Image(targetClient.imagePathProperty().get()));
+//            clientAvatar__img.setImage(new Image(targetClient.imagePathProperty().get()));
 
 
             //

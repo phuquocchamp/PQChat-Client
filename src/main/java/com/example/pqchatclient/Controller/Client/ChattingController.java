@@ -122,10 +122,6 @@ public class ChattingController implements Initializable {
 
 
             });
-
-
-
-
             // Load chatting message from database.
             senderName__lbl.textProperty().bind(Bindings.concat(Model.getInstance().getTargetClient().lastNameProperty().concat(" ").concat(Model.getInstance().getTargetClient().firstNameProperty())));
             senderAvatar__img.imageProperty().bind(Bindings.createObjectBinding(() -> new Image(Model.getInstance().getTargetClient().imagePathProperty().get())));
@@ -463,8 +459,8 @@ public class ChattingController implements Initializable {
                                         System.out.println("Receive :" + streamMessage);
 
                                         Platform.runLater(() -> {
-
-                                            String projectPath = "D:\\Coding\\Back End\\Java\\JavaFX\\PQChat-Client\\src\\main\\resources\\Files\\";
+                                            // C:\Users\phuquocchamp\Coding\Java\JavaFX\PQChat-Client
+                                            String projectPath = "C:\\Users\\phuquocchamp\\Coding\\Java\\JavaFX\\PQChat-Client\\src\\main\\resources\\Files\\";
                                             File imageFile = new File(projectPath + fileName);
                                             Model.getInstance().getSocketManager().receiverFile(imageFile);
                                             try {

@@ -75,28 +75,7 @@ public class DatabaseDriver {
 
     }
 
-    // Evaluate Account
-    public boolean evaluatedAccount(String email, String password){
-        String emailEncrypt = Encrypt.encodePassword(email);
-        String passwordEncrypt = Encrypt.encodePassword(password);
-        ResultSet resultSet = null;
-        try{
-            String sql = "SELECT * FROM Account Where Username = ? AND Password = ?";
-            PreparedStatement preparedStatement = this.connection.prepareStatement(sql);
-            preparedStatement.setString(1,emailEncrypt );
-            preparedStatement.setString(2, passwordEncrypt);
-            resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()){
-                return true;
-            }else{
-                return false;
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-            System.out.println("Error at evaluatedAccount function!");
-        }
-        return false;
-    }
+
     // get Current Account
     public ResultSet getCurrentAccount(String email, String password){
         String emailEncrypt = Encrypt.encodePassword(email);

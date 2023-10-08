@@ -63,9 +63,15 @@ public class SignInController implements Initializable {
         String finalEmail = email;
         String finalPassword = password;
         Thread signInThread = new Thread(() -> {
-            String emailEncrypt = Encrypt.encodePassword(finalEmail);
-            String passwordEncrypt = Encrypt.encodePassword(finalPassword);
-            String messageForm = "evaluateAccount_" + emailEncrypt + "_" + passwordEncrypt;
+            // Encrypt account info
+//            String emailEncrypt = Encrypt.encodePassword(finalEmail);
+//            String passwordEncrypt = Encrypt.encodePassword(finalPassword);
+//            String messageForm = "evaluateAccount_" + emailEncrypt + "_" + passwordEncrypt;
+
+
+            String messageForm = "evaluateAccount_" + finalEmail + "_" + finalPassword;
+
+
             System.out.println(messageForm);
             Model.getInstance().getSocketManager().sendMessage(messageForm);
             try {
