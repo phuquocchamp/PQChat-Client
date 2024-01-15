@@ -3,6 +3,7 @@ package com.example.pqchatclient.View;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
@@ -53,7 +54,9 @@ public class ViewFactory {
     private AnchorPane signUp;
     // Client View
     private final ObjectProperty<ClientMenuOptions> clientSelectedMenuItem;
+    private AnchorPane singleContact;
     private AnchorPane singleChat;
+    private AnchorPane groupContact;
     private AnchorPane groupChat;
 
 
@@ -91,10 +94,32 @@ public class ViewFactory {
         return clientSelectedMenuItem;
     }
 
-    public AnchorPane getSingleChatView() {
+    public AnchorPane getSingleContactView() {
+        if(singleContact == null){
+            try{
+                singleContact = new FXMLLoader(getClass().getResource("/Fxml/Client/SingleContact/SingleContact.fxml")).load();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return singleContact;
+    }
+
+    public AnchorPane getGroupContactView() {
+        if(groupContact == null) {
+            try {
+                groupContact = new FXMLLoader(getClass().getResource("/Fxml/Client/GroupContact/GroupContact.fxml")).load();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return groupContact;
+    }
+
+    public AnchorPane getSingleChatView(){
         if(singleChat == null){
             try{
-                singleChat = new FXMLLoader(getClass().getResource("/Fxml/Client/SingleContact/SingleContact.fxml")).load();
+                singleChat = new FXMLLoader(getClass().getResource("/Fxml/Client/SingleContact/SingleChat.fxml")).load();
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -102,11 +127,11 @@ public class ViewFactory {
         return singleChat;
     }
 
-    public AnchorPane getGroupChatView() {
-        if(groupChat == null) {
-            try {
-                groupChat = new FXMLLoader(getClass().getResource("/Fxml/Client/GroupContact/GroupContact.fxml")).load();
-            } catch (Exception e) {
+    public AnchorPane getGroupChatView(){
+        if(groupChat == null){
+            try{
+                groupChat = new FXMLLoader(getClass().getResource("/Fxml/Client/GroupContact/GroupChat.fxml")).load();
+            }catch (Exception e){
                 e.printStackTrace();
             }
         }

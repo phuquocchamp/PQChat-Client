@@ -59,6 +59,9 @@ public class SignInController implements Initializable {
             e.printStackTrace();
             error__lbl.setText("Please Input Password");
         }
+
+
+
         // ---------------------- Verify account from server -------------------------//
         String finalEmail = email;
         String finalPassword = password;
@@ -66,14 +69,13 @@ public class SignInController implements Initializable {
             // Encrypt account info
 //            String emailEncrypt = Encrypt.encodePassword(finalEmail);
 //            String passwordEncrypt = Encrypt.encodePassword(finalPassword);
-//            String messageForm = "evaluateAccount_" + emailEncrypt + "_" + passwordEncrypt;
-
-
             String messageForm = "evaluateAccount_" + finalEmail + "_" + finalPassword;
-
 
             System.out.println(messageForm);
             Model.getInstance().getSocketManager().sendMessage(messageForm);
+
+
+
             try {
                 String messageResponse = Model.getInstance().getSocketManager().receiverMessage();
                 String[] messageSplit = messageResponse.split("_");

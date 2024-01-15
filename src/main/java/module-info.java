@@ -10,6 +10,7 @@ module com.example.chattingapp {
     requires org.xerial.sqlitejdbc;
     requires GNAvatarView;
     requires jbcrypt;
+    requires org.apache.commons.io;
 
                             
     opens com.example.pqchatclient to javafx.fxml;

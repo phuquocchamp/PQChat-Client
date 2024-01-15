@@ -1,7 +1,10 @@
 package com.example.pqchatclient.Model;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.*;
 import java.net.Socket;
+import java.util.Base64;
 
 public class SocketManager {
     private final Socket clientSocket;
@@ -30,42 +33,22 @@ public class SocketManager {
         return clientReader.readLine();
     }
 
-    public void sendFile(File file){
-        try{
-            FileInputStream fileInputStream = new FileInputStream(file);
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            OutputStream outputStream = clientSocket.getOutputStream();
-            while ((bytesRead = fileInputStream.read(buffer)) != -1){
-                outputStream.write(buffer, 0, bytesRead);
-            }
-            outputStream.flush();
-        }catch (Exception e){
-            e.printStackTrace();
-            System.out.println("Sending file error!");
-        }
+    public void sendFile(File file) throws IOException {
+        byte[] fileContent = FileUtils.readFileToByteArray(file);
+        String encodedString = Base64.getEncoder().encodeToString(fileContent);
+
+        clientWriter.write(encodedString);
+        clientWriter.newLine();
+        clientWriter.flush();
 
     }
 
-    public void receiverFile(File file){
-        try{
-             FileOutputStream fileOutputStream = new FileOutputStream(file);
-             byte[] buffer = new byte[1024];
-             int bytesRead;
-             InputStream inputStream = clientSocket.getInputStream();
-             while((bytesRead = inputStream.read(buffer)) != -1){
-                 fileOutputStream.write(buffer, 0, bytesRead);
-             }
-             fileOutputStream.flush();
-        }catch (Exception e){
-            e.printStackTrace();
-            System.out.println("Error at receiving file!");
-        }
+    public void receiverFile(File file) throws IOException {
+        String encodedString = receiverMessage();
+        byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
+        FileUtils.writeByteArrayToFile(file, decodedBytes);
     }
 
-    public void sendImage(){
-
-    }
 
     public BufferedReader getClientReader() {
         return clientReader;

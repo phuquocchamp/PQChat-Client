@@ -39,11 +39,11 @@ public class SingleMessagesCellController implements Initializable {
             String currentClientID = Model.getInstance().getCurrentClient().clientIDProperty().get();
 
 
-            ResultSet resultSet = Model.getInstance().getDatabaseDriver().getSingleConversation(currentClientID, targetClientID, 1);
-            while (resultSet.next()){
-                lastMessages__lbl.textProperty().set(resultSet.getString("Message"));
-                timeCreated__lbl.textProperty().set(resultSet.getString("timeCreated"));
-            }
+//            ResultSet resultSet = Model.getInstance().getDatabaseDriver().getSingleConversation(currentClientID, targetClientID, 1);
+//            while (resultSet.next()){
+//                lastMessages__lbl.textProperty().set(resultSet.getString("Message"));
+//                timeCreated__lbl.textProperty().set(resultSet.getString("timeCreated"));
+//            }
 
             Model.getInstance().getLastSingleMessage().messageProperty().addListener((observableValue, oldValue, newValue) -> {
 

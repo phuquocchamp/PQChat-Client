@@ -22,7 +22,7 @@ public class SingleOnlineCellController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        clientAvatar__img.setImage(new Image(targetClient.imagePathProperty().get()));
+//        clientAvatar__img.setImage(new Image(targetClient.imagePathProperty().get()));
         clientName__lbl.textProperty().bind(targetClient.firstNameProperty());
     }
 }
