@@ -3,8 +3,7 @@ package com.example.pqchatclient.Utilities;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+
 
 public class Encrypt {
     public static String encodePassword(String password) {
@@ -24,7 +23,12 @@ public class Encrypt {
     }
 
     public static void main(String[] args) {
-        System.out.println(encodePassword("hoangtanphuquoc@gmail.com"));
+        String hashPassword ="dadb69701d0694b49564cce8c626002d108f17288cf591918f93d4a84f94da78";
+        String password = "hoangtanphuquoc@gmail.com";
+
+        if(encodePassword(password).equals(hashPassword)){
+            System.out.println("Thành Công");
+        }
     }
 
 }

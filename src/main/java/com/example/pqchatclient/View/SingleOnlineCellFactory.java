@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListCell;
 
 import java.io.IOException;
-
 public class SingleOnlineCellFactory extends ListCell<Client> {
     @Override
     protected void updateItem(Client client, boolean empty) {

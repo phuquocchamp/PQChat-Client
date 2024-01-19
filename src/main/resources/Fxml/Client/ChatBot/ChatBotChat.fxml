@@ -13,16 +13,16 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="720.0" styleClass="container" stylesheets="@../../../Css/Client/Chatting.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pqchatclient.Controller.Client.SingleContact.SingleChatController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="720.0" styleClass="container" stylesheets="@../../../Css/Client/Chatting.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pqchatclient.Controller.Client.ChatBot.ChatBotChatController">
    <AnchorPane prefHeight="65.0" prefWidth="721.0" styleClass="user__nav" AnchorPane.rightAnchor="0.0">
       <FontIcon iconLiteral="fltral-chat-20" layoutX="502.0" layoutY="50.0" />
       <FontIcon iconLiteral="fltrmz-text-align-right-20" layoutX="646.0" layoutY="50.0" />
       <FontIcon iconLiteral="fltfal-alert-20" layoutX="578.0" layoutY="50.0" />
       <GNAvatarView fx:id="senderAvatar__img" layoutX="14.0" layoutY="14.0" prefHeight="40.0" prefWidth="62.0">
-         <Image url="@../../../Images/Profiles/vku.png" />
+         <Image url="@../../../Images/Innovation-amico.png" />
       </GNAvatarView>
       <VBox layoutX="83.0" layoutY="13.0" prefHeight="40.0" prefWidth="343.0">
-         <Label fx:id="senderName__lbl" styleClass="sender__name" text="Group VKUers" />
+         <Label fx:id="senderName__lbl" styleClass="sender__name" text="PQBOT" />
          <Label fx:id="status" text="Online" />
       </VBox>
    </AnchorPane>

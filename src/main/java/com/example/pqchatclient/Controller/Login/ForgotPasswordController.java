@@ -61,6 +61,11 @@ public class ForgotPasswordController implements Initializable {
             error__lbl.setText("Wrong validation code. Please do it again!");
         }else {
             error__lbl.setText("Successfully!");
+            String newPassword = newPassword__textField.getText();
+            String email = emailAddress__textField.getText();
+            String messageForm = "resetPassword_" + email + "_" + newPassword;
+            Model.getInstance().getSocketManager().sendMessage(messageForm);
+            System.out.println("[Client Log] --> Client " + Model.getInstance().getCurrentClient().clientIDProperty().get() + " sent a reset password request.");
         }
     }
 

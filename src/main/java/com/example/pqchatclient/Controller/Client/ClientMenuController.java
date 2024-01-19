@@ -15,6 +15,7 @@ public class ClientMenuController implements Initializable {
     public Button groupChat__btn;
     public Button setting__btn;
     public Button exit__btn;
+    public Button chatBot_btn;
 
 
     @Override
@@ -25,6 +26,7 @@ public class ClientMenuController implements Initializable {
     public void addListeners() {
         singleChat__btn.setOnAction(event -> onSingleChat());
         groupChat__btn.setOnAction(event -> onGroupChat());
+        chatBot_btn.setOnAction(event -> onChatBot());
         exit__btn.setOnAction(event -> onExitWindow());
     }
 
@@ -35,6 +37,13 @@ public class ClientMenuController implements Initializable {
 
     private void onGroupChat() {
         Model.getInstance().getViewFactory().getClientSelectedMenuItem().set(ClientMenuOptions.GROUPCHAT);
+    }
+    private void onChatBot() {
+        Model.getInstance().getViewFactory().getClientSelectedMenuItem().set(ClientMenuOptions.CHATBOT);
+    }
+
+    private void onSetting() {
+        Model.getInstance().getViewFactory().getClientSelectedMenuItem().set(ClientMenuOptions.SETTING);
     }
 
     private void onExitWindow(){

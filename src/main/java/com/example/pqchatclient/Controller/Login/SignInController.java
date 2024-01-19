@@ -1,5 +1,6 @@
 package com.example.pqchatclient.Controller.Login;
 
+import com.example.pqchatclient.Model.Client;
 import com.example.pqchatclient.Model.Model;
 import com.example.pqchatclient.Utilities.Encrypt;
 import com.example.pqchatclient.View.LoginViewOptions;
@@ -7,10 +8,12 @@ import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.Base64;
 import java.util.ResourceBundle;
 
 public class SignInController implements Initializable {
@@ -23,6 +26,7 @@ public class SignInController implements Initializable {
     public Button hidePassword__btn;
     public Label error__lbl;
     public PasswordField password__passwordField;
+
 
     int clickCount = 0;
 
@@ -67,26 +71,26 @@ public class SignInController implements Initializable {
         String finalPassword = password;
         Thread signInThread = new Thread(() -> {
             // Encrypt account info
-//            String emailEncrypt = Encrypt.encodePassword(finalEmail);
-//            String passwordEncrypt = Encrypt.encodePassword(finalPassword);
+            String emailEncrypt = Encrypt.encodePassword(finalEmail);
+            String passwordEncrypt = Encrypt.encodePassword(finalPassword);
             String messageForm = "evaluateAccount_" + finalEmail + "_" + finalPassword;
 
-            System.out.println(messageForm);
+            System.out.println("[Client Log] --> " + messageForm);
             Model.getInstance().getSocketManager().sendMessage(messageForm);
-
-
-
             try {
                 String messageResponse = Model.getInstance().getSocketManager().receiverMessage();
                 String[] messageSplit = messageResponse.split("_");
                 Platform.runLater(() -> {
-                    if (messageSplit[2].equals("success")) {
+                    if (messageSplit[6].equals("success")) {
                         System.out.println(messageResponse);
                         String accountID = messageSplit[1];
                         // Set currentAccount object
                         Model.getInstance().setCurrentClient(accountID);
                         // set targetAccount object
                         Model.getInstance().setTargetClient(accountID);
+                        // add online client to clientList
+
+
                         // Show main chat window
                         Model.getInstance().getViewFactory().showClientWindow();
                         // Close login stage

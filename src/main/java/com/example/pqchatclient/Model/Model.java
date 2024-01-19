@@ -1,8 +1,6 @@
 package com.example.pqchatclient.Model;
 
 import com.example.pqchatclient.View.ViewFactory;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -20,7 +18,7 @@ public class Model {
     // Client Data Section
     private final Client currentClient;
     private final Client targetClient;
-    private final ObservableList<Client> clientList;
+    private final ObservableList<Client> onlineClientList;
 
     private Model() throws IOException {
         this.viewFactory =  new ViewFactory();
@@ -34,7 +32,7 @@ public class Model {
 
         this.lastSingleMessage = new SingleConversation("","", "", "");
 
-        this.clientList = FXCollections.observableArrayList();
+        this.onlineClientList = FXCollections.observableArrayList();
 
     }
 
@@ -65,6 +63,11 @@ public class Model {
 
     // Client Request
 
+
+    public ObservableList<Client> getOnlineClientList() {
+        return onlineClientList;
+    }
+
     public Client getCurrentClient(){
         return currentClient;
     }
@@ -77,8 +80,7 @@ public class Model {
         return lastSingleMessage;
     }
 
-    public void setLastSingleMessage(){
-
+    public void setLastSingleMessage(String sender, String receiver, String message, String timeCreated){
 
         String currentClientID = currentClient.clientIDProperty().get();
         String targetClientID = targetClient.clientIDProperty().get();

@@ -15,6 +15,11 @@ public class App extends Application {
         Model.getInstance().getViewFactory().showLoginWindow();
     }
 
+    @Override
+    public void stop(){
+        System.out.println("Application is stopped");
+        Model.getInstance().getSocketManager().sendMessage("removeClient_"+Model.getInstance().getCurrentClient().clientIDProperty().get());
+    }
     public static void main(String[] args) {
         launch(args);
     }

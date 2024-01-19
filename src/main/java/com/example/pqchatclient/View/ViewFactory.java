@@ -58,6 +58,8 @@ public class ViewFactory {
     private AnchorPane singleChat;
     private AnchorPane groupContact;
     private AnchorPane groupChat;
+    private AnchorPane chatBotChat;
+    private AnchorPane chatBotContact;
 
 
     public ViewFactory() {
@@ -89,10 +91,31 @@ public class ViewFactory {
 
     // Client View
 
-
-    public ObjectProperty<ClientMenuOptions> getClientSelectedMenuItem(){
+        public ObjectProperty<ClientMenuOptions> getClientSelectedMenuItem(){
         return clientSelectedMenuItem;
     }
+
+    public AnchorPane getChatBotContactView() {
+        if(chatBotContact == null){
+            try{
+                chatBotContact = new FXMLLoader(getClass().getResource("/Fxml/Client/ChatBot/ChatBotContact.fxml")).load();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return chatBotContact;
+    }
+    public AnchorPane getChatBotChatView() {
+        if(chatBotChat == null){
+            try{
+                chatBotChat = new FXMLLoader(getClass().getResource("/Fxml/Client/ChatBot/ChatBotChat.fxml")).load();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return chatBotChat;
+    }
+
 
     public AnchorPane getSingleContactView() {
         if(singleContact == null){

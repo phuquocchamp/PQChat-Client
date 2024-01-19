@@ -1,5 +1,6 @@
 package com.example.pqchatclient.Controller.Client.SingleContact;
 
+import com.example.pqchatclient.Model.Client;
 import com.example.pqchatclient.Model.Model;
 import io.github.gleidson28.GNAvatarView;
 import javafx.application.Platform;
@@ -58,9 +59,14 @@ public class SingleChatController implements Initializable {
     public VBox messageBox__vBox;
     public Button download__btn;
     // Variable
+    String currentClientID = Model.getInstance().getCurrentClient().clientIDProperty().get();
 
     private String targetClientID;
     private Map<String, VBox> messageBoxMap = new HashMap<>();
+
+    String projectPath = "/home/phuquocchamp/Coding/BE/Java/JavaFX/PQChat-Client/src/main/resources/Files/";
+    String imageFilePath = "/Images/Profiles";
+    String profileFilePath = "/home/phuquocchamp/Coding/BE/Java/JavaFX/PQChat-Client/src/main/resources/Images/Profiles";
 
 
     @Override
@@ -75,29 +81,21 @@ public class SingleChatController implements Initializable {
             targetClientID = Model.getInstance().getTargetClient().clientIDProperty().get();
             senderName__lbl.textProperty().bind(Bindings.concat(Model.getInstance().getTargetClient().lastNameProperty().concat(" ").concat(Model.getInstance().getTargetClient().firstNameProperty())));
 
-
             Platform.runLater(() -> {
-//                        senderAvatar__img.imageProperty().bind(Bindings.createObjectBinding(() -> new Image(Model.getInstance().getTargetClient().imagePathProperty().get())));
-//                        senderAvatar__img.setImage(new Image("/Images/Clients/heo.jpg"));
-
-                System.out.println(Model.getInstance().getTargetClient().firstNameProperty().get() + " panel");
-
+                senderAvatar__img.imageProperty().bind(Bindings.createObjectBinding(() -> new Image(getClass().getResourceAsStream(Model.getInstance().getTargetClient().imagePathProperty().get()))));
 
                 if (!messageBoxMap.containsKey(targetClientID)) {
 
                     messageBox__vBox = new VBox();
                     messageBox__vBox.setFillWidth(true);
                     messageBox__vBox.setPadding(new Insets(10, 0, 0, 10));
-
                     // Add messageBox__vBox into map
                     messageBoxMap.put(targetClientID, messageBox__vBox);
-                    System.out.println(targetClientID + " " + messageBoxMap.get(targetClientID));
                 }
 
                 VBox targetBox = messageBoxMap.get(targetClientID);
                 targetBox.setFillWidth(true);
                 targetBox.setPadding(new Insets(10, 0, 0, 10));
-                System.out.println(targetClientID + " " + targetBox);
                 messageContainer__scrollPane.setContent(targetBox);
 
                 loadMessage();
@@ -106,8 +104,6 @@ public class SingleChatController implements Initializable {
                 serverResponse();
                 // Sending message
                 sendMessage__btn.setOnAction(event -> onSendingMessage());
-
-
                 fileSend__btn.setOnAction(event -> onSendingFile());
                 imageSend__btn.setOnAction(event -> onSendingImage());
                 emojiSend__btn.setOnAction(event -> onSendingEmoji());
@@ -138,11 +134,11 @@ public class SingleChatController implements Initializable {
         String enterMessage = enterMessage__TextArea.getText();
         if (!enterMessage.isEmpty()) {
             // singleChat_sender_receiver_messageContent
-            String currentClientID = Model.getInstance().getCurrentClient().clientIDProperty().get();
             // TimeCreated
             String timeCreated = getTimeNow();
             String messageForm = "singleChat_" + currentClientID + "_" + targetClientID + "_" + enterMessage + "_" + timeCreated;
-            System.out.println(Model.getInstance().getCurrentClient().firstNameProperty().get() + " send message to " + Model.getInstance().getTargetClient().firstNameProperty().get());
+            System.out.println("[Client log] --> Client: " + currentClientID + " sent a message to client : " + targetClientID);
+
 
             System.out.println(messageForm);
             Model.getInstance().getSocketManager().sendMessage(messageForm);
@@ -173,21 +169,21 @@ public class SingleChatController implements Initializable {
 
                 // Sending data to socket
                 String targetClientID = Model.getInstance().getTargetClient().clientIDProperty().get();
-                String currentClientID = Model.getInstance().getCurrentClient().clientIDProperty().get();
+
                 String fileName = selectedFile.getName();
                 byte[] fileContent = FileUtils.readFileToByteArray(selectedFile);
                 String encodedString = Base64.getEncoder().encodeToString(fileContent);
                 String timeCreated = getTimeNow();
 
                 String messageForm = "fileTransfer_" + currentClientID + "_" + targetClientID + "_" + fileName + "_" + encodedString + "_" + timeCreated;
-                System.out.println("fileTransfer_" + currentClientID + "_" + targetClientID + "_" + timeCreated);
+                System.out.println("[Client log] --> Client: " + currentClientID + " sent a file to client : " + targetClientID);
+
                 Model.getInstance().getSocketManager().sendMessage(messageForm);
 
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.println("Sending file error!");
             }
-
         }
     }
 
@@ -203,11 +199,9 @@ public class SingleChatController implements Initializable {
                 generateImageBox(selectedImage, getTimeNow(), "CENTER_RIGHT");
                 // icon to save the file
                 saveFile(selectedImage);
-
                 // Sending data to socket
 
                 String targetClientID = Model.getInstance().getTargetClient().clientIDProperty().get();
-                String currentClientID = Model.getInstance().getCurrentClient().clientIDProperty().get();
                 String fileName = selectedImage.getName();
 
                 byte[] fileContent = FileUtils.readFileToByteArray(selectedImage);
@@ -216,7 +210,7 @@ public class SingleChatController implements Initializable {
                 String timeCreated = getTimeNow();
                 String messageForm = "imageTransfer_" + currentClientID + "_" + targetClientID + "_" + fileName + "_" + encodedString + "_" + timeCreated;
                 System.out.println("imageTransfer_" + currentClientID + "_" + targetClientID + "_" + fileName + "_" + timeCreated);
-
+                System.out.println("[Client log] --> Client: " + currentClientID + " sent an image to client : " + targetClientID);
                 Model.getInstance().getSocketManager().sendMessage(messageForm);
 
 
@@ -224,7 +218,6 @@ public class SingleChatController implements Initializable {
                 e.printStackTrace();
                 System.out.println("Sending file error!");
             }
-
         }
     }
 
@@ -235,12 +228,10 @@ public class SingleChatController implements Initializable {
         byte[] fileData = new byte[(int) selectedImage.length()];
         fileInputStream.read(fileData);
         fileInputStream.close();
-
         // Lấy đuôi file
         String filePath = selectedImage.getAbsolutePath();
         Path path = Paths.get(filePath);
         String fileExtension = FilenameUtils.getExtension(path.getFileName().toString());
-
 
         // download image
         download__btn.setOnAction(event -> {
@@ -261,7 +252,6 @@ public class SingleChatController implements Initializable {
             }
 
         });
-
     }
 
     private void generateImageBox(File selectedImage, String timeCreated, String align) throws IOException {
@@ -317,29 +307,6 @@ public class SingleChatController implements Initializable {
 
     }
 
-
-//    private void saveFile(File selectedFile, String fileName ) {
-//        Stage stage = (Stage) sendMessage__btn.getScene().getWindow();
-//
-//        download__btn.setOnAction(event -> {
-//            FileChooser saveFile = new FileChooser();
-//            saveFile.setInitialFileName(fileName);
-//            saveFile.setTitle("Save File");
-//            File localSaveFile = saveFile.showSaveDialog(stage);
-//            if(localSaveFile != null){
-//                try{
-//                    FileOutputStream fileOutputStream = new FileOutputStream(localSaveFile);
-//                    fileOutputStream.write();
-//                }catch (Exception e){
-//                    e.printStackTrace();
-//                    System.out.println("Eror at saving file!");
-//                }
-//            }
-//
-//        });
-//
-//    }
-
     private void generateFileBox(String enterMessage, String timeCreated, String align) {
         HBox container = new HBox();
         container.setAlignment(Pos.valueOf(align));
@@ -374,10 +341,9 @@ public class SingleChatController implements Initializable {
 
         textFlow.getChildren().add(text);
         container.getChildren().addAll(download__btn, textFlow, timeCreated_tf);
-        messageBox__vBox.getChildren().add(container);
+        messageBoxMap.get(targetClientID).getChildren().add(container);
         enterMessage__TextArea.setText("");
     }
-
 
     private void serverResponse() {
 
@@ -396,6 +362,8 @@ public class SingleChatController implements Initializable {
                                 // Show on GUI
                                 String timeCreated = messageSplit[4];
                                 String receiver = messageSplit[2];
+                                String sender = messageSplit[1];
+                                String messageContent = messageSplit[3];
 
                                 if (receiver.equals(Model.getInstance().getCurrentClient().clientIDProperty().get())) {
                                     System.out.println(streamMessage);
@@ -403,8 +371,44 @@ public class SingleChatController implements Initializable {
                                     Platform.runLater(() -> {
                                         generateMessageBox(messageSplit[3], timeCreated, "CENTER_LEFT");
 //                                            Model.getInstance().getDatabaseDriver().setSingleConversation(sender,receiver, mesage, timeCreated);
+                                        // Binding lastMessageCell
+                                        Model.getInstance().getLastSingleMessage().messageProperty().set(messageContent);
+                                        Model.getInstance().getLastSingleMessage().timeCreatedProperty().set(timeCreated);
+                                        Model.getInstance().getLastSingleMessage().senderProperty().set(sender);
+                                        Model.getInstance().getLastSingleMessage().receiverProperty().set(currentClientID);
+
+                                        // Save lastMessage into database;
+//                                        Model.getInstance().setLastSingleMessage();
                                     });
                                 }
+
+                            } else if (messageSplit[0].equals("removeClient")) {
+                                for (Client client : Model.getInstance().getOnlineClientList()) {
+                                    if (client.clientIDProperty().get().equals(messageSplit[1])) {
+                                        Model.getInstance().getOnlineClientList().remove(client);
+                                        break;
+                                    }
+                                }
+                                System.out.println("[Client log] --> Client: " + currentClientID + " exited.");
+
+                            } else if (messageSplit[0].equals("onlineClient")) {
+                                Platform.runLater(() -> {
+                                    System.out.println("[Log] --> updated online client from server !");
+
+                                    String encodedString = messageSplit[4];
+                                    byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
+                                    String imagePath = profileFilePath + "/" + messageSplit[1] + "." + messageSplit[5];
+                                    File imageFile = new File(imagePath);
+                                    try {
+                                        FileUtils.writeByteArrayToFile(imageFile, decodedBytes);
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                    String profilePath = imageFilePath + "/" + messageSplit[1] + "." + messageSplit[5];
+
+                                    Client onlineClient = new Client(messageSplit[1], messageSplit[1], messageSplit[2], messageSplit[3], profilePath);
+                                    Model.getInstance().getOnlineClientList().add(onlineClient);
+                                });
 
                             } else if (messageSplit[0].equals("fileTransfer")) {
                                 String receiver = messageSplit[2];
@@ -413,10 +417,9 @@ public class SingleChatController implements Initializable {
                                 String timeCreated = messageSplit[5];
 
                                 if (receiver.equals(Model.getInstance().getCurrentClient().clientIDProperty().get())) {
-                                    System.out.println("Receive file:" + streamMessage);
+                                    System.out.println("[Log] --> Received file from server !");
 
 
-                                    String projectPath = "/home/phuquocchamp/Coding/BE/Java/JavaFX/PQChat-Client/src/main/resources/Files/";
                                     File file = new File(projectPath + fileName);
                                     byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
                                     try {
@@ -442,17 +445,15 @@ public class SingleChatController implements Initializable {
                                 String timeCreated = messageSplit[5];
 
                                 if (receiver.equals(Model.getInstance().getCurrentClient().clientIDProperty().get())) {
-                                    System.out.println("Receive image:" + streamMessage);
+                                    System.out.println("[Log] --> Received an image from server !");
 
-
-                                        String projectPath = "/home/phuquocchamp/Coding/BE/Java/JavaFX/PQChat-Client/src/main/resources/Files/";
-                                        File imageFile = new File(projectPath + fileName);
-                                        byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
-                                        try {
-                                            FileUtils.writeByteArrayToFile(imageFile, decodedBytes);
-                                        } catch (IOException e) {
-                                            throw new RuntimeException(e);
-                                        }
+                                    File imageFile = new File(projectPath + fileName);
+                                    byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
+                                    try {
+                                        FileUtils.writeByteArrayToFile(imageFile, decodedBytes);
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
+                                    }
                                     Platform.runLater(() -> {
                                         try {
                                             download__btn = new Button();
@@ -484,7 +485,6 @@ public class SingleChatController implements Initializable {
     }
 
     // Utilities
-
     // Get the time now
     private String getTimeNow() {
         LocalTime localTime = LocalTime.now();

@@ -11,6 +11,9 @@ module com.example.chattingapp {
     requires GNAvatarView;
     requires jbcrypt;
     requires org.apache.commons.io;
+    requires google.bard;
+    requires org.apache.httpcomponents.httpclient;
+    requires org.json;
 
                             
     opens com.example.pqchatclient to javafx.fxml;
@@ -25,5 +28,6 @@ module com.example.chattingapp {
     exports com.example.pqchatclient.View;
     exports com.example.pqchatclient.Controller.Client.GroupContact;
     exports com.example.pqchatclient.Controller.Client.SingleContact;
+    exports com.example.pqchatclient.Controller.Client.ChatBot;
 
 }

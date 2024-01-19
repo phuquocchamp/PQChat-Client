@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane prefHeight="900.0" prefWidth="50.0" styleClass="container" stylesheets="@../../Css/Client/ClientMenu.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pqchatclient.Controller.Client.ClientMenuController">
+<AnchorPane prefHeight="900.0" prefWidth="50.0" styleClass="container" stylesheets="@../../Css/Client/ClientMenu.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pqchatclient.Controller.Client.ClientMenuController">
    <VBox alignment="CENTER" layoutY="195.0" prefHeight="426.0" prefWidth="50.0" styleClass="menu__section" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
       <Button fx:id="singleChat__btn" mnemonicParsing="false" prefHeight="34.0" prefWidth="43.0">
          <graphic>
@@ -15,6 +15,11 @@
       <Button fx:id="groupChat__btn" mnemonicParsing="false">
          <graphic>
             <FontIcon iconColor="WHITE" iconLiteral="fltfmz-people-community-20" iconSize="35" wrappingWidth="30.921173572540283" />
+         </graphic>
+      </Button>
+      <Button fx:id="chatBot_btn" mnemonicParsing="false">
+         <graphic>
+            <FontIcon iconLiteral="fltfal-chat-bubbles-question-24" iconSize="35" />
          </graphic>
       </Button>
       <Button fx:id="setting__btn" mnemonicParsing="false">

@@ -15,7 +15,6 @@ public class Email {
 
 
     public static boolean sendEmail(String sendTo, String title, String validationCode){
-
         // Properties
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
@@ -157,7 +156,7 @@ public class Email {
     }
 
     public static void main(String[] args) {
-        sendEmail("klinhtruong04@gmail.com", "Reset Password Request 2", "12344");
+        sendEmail("phuquocchamp@gmail.com", "Reset Password Request 2", "12344");
     }
 
 }

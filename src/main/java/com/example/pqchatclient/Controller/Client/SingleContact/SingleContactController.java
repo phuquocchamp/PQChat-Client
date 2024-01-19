@@ -24,24 +24,24 @@ public class SingleContactController implements Initializable {
 
     public  ListView<Client> userChat__listView;
 
-    ObservableList<Client> clientList = FXCollections.observableArrayList();
+    ObservableList<Client> databaseClientList = FXCollections.observableArrayList();
+    ObservableList<Client> onlineClientList = FXCollections.observableArrayList();
+
     Client selectedClient;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Online ListView
-        getClientList();
+        // Get database client list
+        getDatabaseClientList();
+        // Get online client list
+        onlineClientList = Model.getInstance().getOnlineClientList();
 
-        userOnline__listView.setItems(clientList );
+        userOnline__listView.setItems(onlineClientList);
         userOnline__listView.setCellFactory(event -> new SingleOnlineCellFactory());
 
-
-
-
-
         // Messages ListView
-        userChat__listView.setItems(clientList);
+        userChat__listView.setItems(databaseClientList);
         userChat__listView.setCellFactory(event -> new SingleMessagesCellFactory());
 
         // Get Selected Client
@@ -56,10 +56,11 @@ public class SingleContactController implements Initializable {
             }
         });
 
-
     }
 
-    private void getClientList() {
+
+
+    private void getDatabaseClientList() {
         ResultSet resultSet = Model.getInstance().getDatabaseDriver().getClientList();
         try{
             while(resultSet.next()){
@@ -68,7 +69,7 @@ public class SingleContactController implements Initializable {
                 String firstName = resultSet.getString("firstName");
                 String lastName = resultSet.getString("lastName");
                 String imagePath = resultSet.getString("imagePath");
-                clientList.add(new Client(clientID, accountID, firstName, lastName, imagePath));
+                databaseClientList.add(new Client(clientID, accountID, firstName, lastName, imagePath));
             }
         }catch (SQLException e){
             e.printStackTrace();

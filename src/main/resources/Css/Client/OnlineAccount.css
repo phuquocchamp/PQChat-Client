@@ -17,3 +17,10 @@
     -fx-text-alignment: center;
     -fx-alignment: center;
 }
+
+.addButton {
+    -fx-background-color: transparent;
+    /*-fx-background-radius: 50%;*/
+}
+
+
