@@ -5,7 +5,9 @@ PQChat is a client-to-client messaging application developed using JavaFX, CSS, 
 ## Contain
 
 ### Server Side
+
 - [Link](https://github.com/phuquocchamp/PQChat-Server)
+
 ### Client Side
 
 - [Link](https://github.com/phuquocchamp/PQChat-Client)
@@ -24,25 +26,39 @@ PQChat is a client-to-client messaging application developed using JavaFX, CSS, 
 
 #### Login
 
-![image.png](assets/image.png)
+![1705682331959](image/ReadMe/1705682331959.png)
 
 #### Register Account
 
-![image.png](assets/registerAccount.png)
+![1705682368382](image/ReadMe/1705682368382.png)
 
 #### Forget Account
 
-![image.png](assets/forgetAccount.png)
+![1705682281777](image/ReadMe/1705682281777.png)
+
+##### Send validation code via email
+
+![1705682883187](image/ReadMe/1705682883187.png)
 
 ### Client Scene
 
-#### Client
+#### Client 
 
-![image.png](assets/client.png)
+![1705682816223](image/ReadMe/1705682816223.png)
 
 #### Send Image
 
-![image.png](assets/sendFile)
+![1705682584676](image/ReadMe/1705682584676.png)
+
+![1705682520816](image/ReadMe/1705682520816.png)
+
+### Group Sence
+
+![1705682966445](image/ReadMe/1705682966445.png)
+
+### ChatBot [using ChatGPT API]
+
+![1705683567044](image/ReadMe/1705683567044.png)
 
 ## Technologies Used
 
